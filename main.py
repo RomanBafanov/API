@@ -1,17 +1,42 @@
-from weather import req_weather
+from typing import Any
+import requests
 
 
-url = 'http://wttr.in'
-locations = [
-        {'san': ['francisco', 'n', 'qu', 'lang=en',]},
-        {'svo': ''},
-        {'London': ''},
-        {'Череповец': ['M', 'nmq', 'T', 'lang=ru',]},
+Params = {
+    'san': {
+        'francisco': '',
+        'lang': 'en',
+        '?n': '',
+        '?T': '',
+    },
+    'svo': '',
+    'London': '',
+    'Череповец': {
+        'lang': 'en',
+        'M': '',
+        'nmq': '',
+        'T': '',
+    }
+
+}
+
+def request(city: Any) -> Any:
+    url = f'http://wttr.in/{city}'
+    response = requests.get(url, params=Params[city])
+    response.raise_for_status()
+
+    return response.text
+
+
+def main() -> Any:
+    locations = [
+        'san',
+        'svo',
+        'London',
+        'Череповец',
     ]
-
-def main():
     for city in locations:
-        req_weather(url, city)
+        print(request(city))
 
 
 if __name__ == '__main__':
