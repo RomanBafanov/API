@@ -2,27 +2,16 @@ from typing import Any
 import requests
 
 
-Params = {
-    'san': {
-        'francisco': '',
-        'lang': 'en',
-        '?n': '',
-        '?T': '',
-    },
-    'svo': '',
-    'London': '',
-    'Череповец': {
-        'lang': 'en',
+PARAMS = {
+        'lang': 'ru',
         'M': '',
         'nmq': '',
         'T': '',
     }
 
-}
-
-def request(city: Any) -> Any:
+def request_weather(city: Any) -> Any:
     url = f'http://wttr.in/{city}'
-    response = requests.get(url, params=Params[city])
+    response = requests.get(url, params=PARAMS)
     response.raise_for_status()
 
     return response.text
@@ -30,13 +19,12 @@ def request(city: Any) -> Any:
 
 def main() -> Any:
     locations = [
-        'san',
         'svo',
         'London',
         'Череповец',
     ]
     for city in locations:
-        print(request(city))
+        print(request_weather(city))
 
 
 if __name__ == '__main__':
